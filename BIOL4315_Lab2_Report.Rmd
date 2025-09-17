@@ -1,0 +1,46 @@
+---
+title: "BIOL4315_Lab2_Report"
+output: html_document
+date: "2025-09-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Long Read Quality Control
+
+(sequali-env)$conda install filtlong
+
+(sequali-env)$filtlong --keep_percent 75 ERR1539001.fastq.gz | gzip > ERR1539001-filtlong.fastq.gz
+
+(sequali-env)$sequali --outdir ./sequali_reports_filtlong ERR1539001-filtlong.fastq.gz
+
+After the reads were filtered: N50 increased from 6681 bp to 7371 bp, mean read length increased from 4888.03 bp to 6914.58, distribution of read lengths changed from skewed left to normal, average quality score per read 10 or greater increased from 2.44% to 4.49%, and per position quality score had a much smaller drop off after 10000 bp.
+
+The quality of the data improved after filtering.  However, the quality of this sequencing run may not be adequate for downstream analysis.  The proportion of reads with an average quality score 10 or greater is too low (4.49%). To use data for downstream analysis, we would like this proportion to be greater than 50%.
+
+
+## Short Read Quality Control
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
