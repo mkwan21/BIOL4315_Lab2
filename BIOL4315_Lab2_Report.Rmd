@@ -23,6 +23,18 @@ The quality of the data improved after filtering.  However, the quality of this 
 
 ## Short Read Quality Control
 
+(base)$wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR112/040/ERR11203340/ERR11203340_1.fastq.gz
+
+(base)$wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR112/040/ERR11203340/ERR11203340_2.fastq.gz
+
+```{r Campilobacter jejuni}
+library(Rqc)
+qcRes <- rqc(path = "./c_jejuni/", pattern = ".fastq.gz", openBrowser = FALSE)
+rqcCycleQualityBoxPlot(qcRes)
+rqcCycleBaseCallsLinePlot(qcRes)
+rqcReadFrequencyPlot(qcRes)
+```
+
 
 
 ## R Markdown
