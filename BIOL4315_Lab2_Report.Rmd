@@ -30,29 +30,35 @@ The quality of the data improved after filtering.  However, the quality of this 
 ```{r Campilobacter jejuni}
 library(Rqc)
 qcRes <- rqc(path = "./c_jejuni/", pattern = ".fastq.gz", openBrowser = FALSE)
+```
+```{r fig.cap = "The base call quality drops below twenty at position 101 in the first run."}
 rqcCycleQualityBoxPlot(qcRes)
+```
+
+```{r fig.cap = "N is not found in significant proportions for any of the base calls."}
 rqcCycleBaseCallsLinePlot(qcRes)
+```
+
+```{r fig.cap = "Just under half of the sequences have one read.  Almost three quarters of the sequences have one or two reads." }
 rqcReadFrequencyPlot(qcRes)
 ```
 
-
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r QuasR}
+library(QuasR)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r Trim}
+fastqFiles <- c("./c_jejuni/ERR11203340_1.fastq.gz", "./c_jejuni/ERR11203340_2.fastq.gz")
+outFiles <- paste(pattern = c("processed_1_", "processed_2_"), ".fastq", sep = "")
+preprocessReads(fastqFiles, outFiles, truncateEndBases = 1)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r ShortRead}
+library(ShortRead)
+```
+
+```{r TrimCorrect}
+reads <- readFastq("./c_jejuni/ERR11203340_1.fastq.gz")
+trimmedReads <- trimTails(reads, k = 1, a = 10, left = FALSE, right = TRUE, successive = TRUE)
+writeFastq(trimmedReads, "trimmed_reads.fastq.gz", compress = TRUE)
+```
